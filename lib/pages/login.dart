@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:neotechapp/routes/RouteManager.dart'; // Caminho ajustado
+import 'package:neotechapp/routes/RouteManager.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,16 +13,13 @@ class _LoginState extends State<LoginPage> {
   bool isLogin = true;
   bool obscureText = true;
 
-  // Controladores separados para LoginPage e cadastro
   final TextEditingController emailControllerLogin = TextEditingController();
   final TextEditingController passwordControllerLogin = TextEditingController();
-
   final TextEditingController nameControllerCadastro = TextEditingController();
   final TextEditingController emailControllerCadastro = TextEditingController();
   final TextEditingController passwordControllerCadastro =
       TextEditingController();
 
-  // Função para alternar entre LoginPage e cadastro
   void toggleForm() {
     setState(() {
       isLogin = !isLogin;
@@ -33,11 +30,20 @@ class _LoginState extends State<LoginPage> {
     Get.offNamed(RouteManager.home);
   }
 
-  // Função de validação de email
   bool isValidEmail(String email) {
     String pattern = r'^[a-zA-Z0-9._%+-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,}$';
     RegExp regex = RegExp(pattern);
     return regex.hasMatch(email);
+  }
+
+  bool isPasswordValid(String password) {
+    final hasLower = RegExp(r'[a-z]').hasMatch(password);
+    final hasUpper = RegExp(r'[A-Z]').hasMatch(password);
+    final hasDigit = RegExp(r'[0-9]').hasMatch(password);
+    final hasSpecial = RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(password);
+    final validLength = password.length >= 8 && password.length <= 70;
+
+    return hasLower && hasUpper && hasDigit && hasSpecial && validLength;
   }
 
   @override
@@ -46,7 +52,6 @@ class _LoginState extends State<LoginPage> {
       backgroundColor: Colors.grey[200],
       body: Stack(
         children: [
-          // Curvas no canto superior esquerdo
           Positioned(
             top: 0,
             left: 0,
@@ -55,7 +60,6 @@ class _LoginState extends State<LoginPage> {
               painter: TopLeftWavePainter(),
             ),
           ),
-          // Curvas no canto inferior direito
           Positioned(
             bottom: 0,
             right: 0,
@@ -64,8 +68,6 @@ class _LoginState extends State<LoginPage> {
               painter: BottomRightWavePainter(),
             ),
           ),
-
-          // Conteúdo principal
           Center(
             child: SingleChildScrollView(
               child: Padding(
@@ -74,13 +76,12 @@ class _LoginState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Transform.translate(
-                      offset: Offset(0, 20), // ou qualquer valor que te agrade
+                      offset: Offset(0, 20),
                       child: Image.asset(
                         "assets/images/logoneotech.png",
                         width: 200,
                       ),
                     ),
-                    // Título
                     Text(
                       isLogin ? "Que bom que você retornou!" : "Crie sua conta",
                       style: const TextStyle(
@@ -88,12 +89,8 @@ class _LoginState extends State<LoginPage> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-
                     const SizedBox(height: 10),
-
                     const SizedBox(height: 20),
-
-                    // Campos de entrada
                     if (!isLogin)
                       _buildTextField(
                         Icons.person,
@@ -119,9 +116,13 @@ class _LoginState extends State<LoginPage> {
                           : passwordControllerCadastro,
                     ),
 
-                    const SizedBox(height: 20),
+                    // ✅ Adicionado widget de validação abaixo do campo de senha
+                    if (!isLogin)
+                      PasswordCriteriaWidget(
+                        password: passwordControllerCadastro.text,
+                      ),
 
-                    // Botão principal
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
@@ -135,7 +136,6 @@ class _LoginState extends State<LoginPage> {
                       ),
                       onPressed: () {
                         if (isLogin) {
-                          // Validar LoginPage
                           if (emailControllerLogin.text.isEmpty ||
                               !isValidEmail(emailControllerLogin.text)) {
                             showErrorDialog(
@@ -147,11 +147,9 @@ class _LoginState extends State<LoginPage> {
                               "A senha deve ter no mínimo 6 caracteres.",
                             );
                           } else {
-                            // Lógica de LoginPage
                             print("Login realizado");
                           }
                         } else {
-                          // Validar cadastro
                           if (nameControllerCadastro.text.isEmpty) {
                             showErrorDialog("Por favor, insira seu nome.");
                           } else if (emailControllerCadastro.text.isEmpty ||
@@ -159,15 +157,17 @@ class _LoginState extends State<LoginPage> {
                             showErrorDialog(
                               "Por favor, insira um e-mail válido.",
                             );
-                          } else if (passwordControllerCadastro.text.isEmpty ||
-                              passwordControllerCadastro.text.length < 6) {
+                          } else if (passwordControllerCadastro.text.isEmpty) {
+                            showErrorDialog("Por favor, insira uma senha.");
+                          } else if (!isPasswordValid(
+                            passwordControllerCadastro.text,
+                          )) {
                             showErrorDialog(
-                              "A senha deve ter no mínimo 6 caracteres.",
+                              "A senha não atende a todos os critérios.",
                             );
                           } else {
-                            // Lógica de cadastro
                             print("Cadastro realizado");
-                            navigateToHome(); // Chama a navegação para Home após o cadastro
+                            navigateToHome();
                           }
                         }
                       },
@@ -180,10 +180,7 @@ class _LoginState extends State<LoginPage> {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 10),
-
-                    // Alternar entre Login e Cadastro
                     TextButton(
                       onPressed: toggleForm,
                       child: Text.rich(
@@ -220,7 +217,6 @@ class _LoginState extends State<LoginPage> {
     );
   }
 
-  // Método para mostrar um erro de validação
   void showErrorDialog(String message) {
     showDialog(
       context: context,
@@ -240,7 +236,6 @@ class _LoginState extends State<LoginPage> {
     );
   }
 
-  // Método para o campo de texto com ícones
   Widget _buildTextField(
     IconData icon,
     String hint,
@@ -253,17 +248,16 @@ class _LoginState extends State<LoginPage> {
       child: TextField(
         controller: controller,
         obscureText: obscure,
+        onChanged: (_) {
+          setState(() {}); // Atualiza o PasswordCriteriaWidget dinamicamente
+        },
         decoration: InputDecoration(
           prefixIcon: Icon(
             icon,
             color: const Color.fromARGB(255, 161, 161, 161),
           ),
           hintText: hint,
-          hintStyle:
-              hintStyle ??
-              TextStyle(
-                color: Colors.grey,
-              ), // Usa a cor cinza por padrão, caso não passe `hintStyle`
+          hintStyle: hintStyle ?? TextStyle(color: Colors.grey),
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -288,17 +282,30 @@ class _LoginState extends State<LoginPage> {
       ),
     );
   }
-}class TopLeftWavePainter extends CustomPainter {
+}
+
+class TopLeftWavePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = const Color.fromARGB(255, 190, 231, 193)
-      ..style = PaintingStyle.fill;
+    final paint =
+        Paint()
+          ..color = const Color.fromARGB(255, 190, 231, 193)
+          ..style = PaintingStyle.fill;
 
     final path = Path();
     path.moveTo(0, size.height * 0.9);
-    path.quadraticBezierTo(size.width * 0.1, size.height * 0.7, size.width * 0.3, size.height * 0.75);
-    path.quadraticBezierTo(size.width * 0.6, size.height * 0.8, size.width * 0.7, size.height * 0.3);
+    path.quadraticBezierTo(
+      size.width * 0.1,
+      size.height * 0.7,
+      size.width * 0.3,
+      size.height * 0.75,
+    );
+    path.quadraticBezierTo(
+      size.width * 0.6,
+      size.height * 0.8,
+      size.width * 0.7,
+      size.height * 0.3,
+    );
     path.quadraticBezierTo(size.width * 0.8, size.height * 0.1, size.width, 0);
     path.lineTo(0, 0);
     path.close();
@@ -309,17 +316,29 @@ class _LoginState extends State<LoginPage> {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
+
 class BottomRightWavePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = const Color.fromARGB(255, 190, 231, 193)
-      ..style = PaintingStyle.fill;
+    final paint =
+        Paint()
+          ..color = const Color.fromARGB(255, 190, 231, 193)
+          ..style = PaintingStyle.fill;
 
     final path = Path();
     path.moveTo(size.width, size.height * 0.4);
-    path.quadraticBezierTo(size.width * 0.75, size.height * 0.85, size.width * 0.5, size.height * 0.75);
-    path.quadraticBezierTo(size.width * 0.3, size.height * 0.65, 0, size.height);
+    path.quadraticBezierTo(
+      size.width * 0.75,
+      size.height * 0.85,
+      size.width * 0.5,
+      size.height * 0.75,
+    );
+    path.quadraticBezierTo(
+      size.width * 0.3,
+      size.height * 0.65,
+      0,
+      size.height,
+    );
     path.lineTo(size.width, size.height);
     path.close();
 
@@ -328,4 +347,59 @@ class BottomRightWavePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
+
+// Widget de validação de senha
+class PasswordCriteriaWidget extends StatelessWidget {
+  final String password;
+
+  PasswordCriteriaWidget({required this.password});
+
+  Widget _buildCriteria(bool condition, String text) {
+    return Row(
+      children: [
+        Icon(
+          condition ? Icons.check_circle : Icons.cancel,
+          color: condition ? Colors.green : Colors.red,
+          size: 18,
+        ),
+        const SizedBox(width: 8),
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: 14,
+            color: condition ? Colors.green[800] : Colors.red[800],
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final hasLower = RegExp(r'[a-z]').hasMatch(password);
+    final hasUpper = RegExp(r'[A-Z]').hasMatch(password);
+    final hasDigit = RegExp(r'[0-9]').hasMatch(password);
+    final hasSpecial = RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(password);
+    final validLength = password.length >= 8 && password.length <= 70;
+
+    return Container(
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(26, 179, 178, 178),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildCriteria(validLength, 'De 8 à 70 caracteres'),
+          _buildCriteria(hasLower, 'Letra minúscula'),
+          _buildCriteria(hasUpper, 'Letra maiúscula'),
+          _buildCriteria(hasDigit, 'Número'),
+          _buildCriteria(hasSpecial, 'Símbolo (Ex: !@#%)'),
+        ],
+      ),
+    );
+  }
 }
