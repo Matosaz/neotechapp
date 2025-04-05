@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:neotechapp/widgets/custom_appbar.dart';
 import 'package:neotechapp/widgets/app_drawer.dart';
 import 'package:neotechapp/widgets/bottom_navbar.dart';
-
+import 'package:get/get.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
     ),
     const Center(child: Text("Buscar", style: TextStyle(fontFamily: 'Poppins'))),
     const Center(child: Text("Mensagens", style: TextStyle(fontFamily: 'Poppins'))),
-    const Center(child: Text("Perfil", style: TextStyle(fontFamily: 'Poppins'))),
   ];
 
   @override
@@ -37,13 +36,19 @@ class _HomePageState extends State<HomePage> {
       appBar: const CustomAppBar(),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onTabChange: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-      ),
+  selectedIndex: _selectedIndex,
+onTabChange: (index) {
+  if (index == 3) {
+    Get.toNamed('/perfil');
+  } else {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+},
+
+),
+
     );
   }
 }

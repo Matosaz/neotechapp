@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           bodySmall: TextStyle(fontFamily: 'Poppins', fontSize: 16),
         ),
       ),
-      initialRoute: RouteManager.login, // define a rota inicial
+      initialRoute: RouteManager.home, // define a rota inicial
       getPages: RouteManager.routes,    // importa suas rotas GetX
     );
   }
