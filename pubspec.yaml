@@ -15,21 +15,26 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  google_nav_bar: ^5.0.7
+  get: ^4.6.6  # ou a versão mais recente
+
 
 flutter_native_splash:
-  color: "#def5de" # Cor de fundo
-  image: assets/images/neotechlogo.png
+  color: "#E3F9DD" # ou o fundo da splash
+  image: assets/images/logoneotech.png
   android: true
   ios: true
+  android_gravity: center
+  ios_content_mode: center
 
   android_12:
-    color: "#def5de"
-    image: assets/images/neotechlogo.png
+   color: "#E3F9DD" # ou o fundo da splash
+   image: assets/images/logoneotech.png
 
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/logo_neotechps.png"
+  image_path: "assets/images/iconneotech.png"
 
 
 flutter:
@@ -37,7 +42,7 @@ flutter:
   assets:
     - assets/backgrounds/background.png #// Fundo da SplashScreen
     - assets/images/logo_neotechps.png #// Fundo tela de Boas-Vindas
-    - assets/images/neotechlogo.png #// Fundo tela de Boas-Vindas
+    - assets/images/logoneotech.png #// Fundo tela de Boas-Vindas
 
 
   fonts:
