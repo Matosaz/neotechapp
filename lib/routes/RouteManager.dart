@@ -9,9 +9,14 @@ class RouteManager {
   static String perfil = '/perfil';
 
   static List<GetPage> routes = [
-    GetPage(name: home, page: () => const HomePage()),
+    GetPage(
+      name: '/home',
+      page: () {
+        final args = Get.arguments as int? ?? 0;
+        return HomePage(initialIndex: args);
+      },
+    ),
     GetPage(name: login, page: () => const LoginPage()),
     GetPage(name: perfil, page: () => const ProfileScreen()),
-
   ];
 }

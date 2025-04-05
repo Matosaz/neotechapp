@@ -11,7 +11,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           // Pintura do fundo ondulado
           CustomPaint(
-           size: const Size(double.infinity, 180), // Altura fixa, igual ao preferredSize.height
+           size: const Size(double.infinity, 170), // Altura fixa, igual ao preferredSize.height
            painter: AppBarBackgroundPainter(),
           ),
           // Conteúdo da AppBar
@@ -23,7 +23,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 children: [
                   Builder(
                     builder: (context) => IconButton(
-                      icon: const Icon(Icons.menu_outlined, color: Color.fromARGB(221, 5, 5, 5), size: 32,),
+                      icon: const Icon(Icons.menu_outlined, color: Color.fromARGB(255, 255, 255, 255), size: 32,),
                       onPressed: () {
                         Scaffold.of(context).openDrawer();
                       },
@@ -32,10 +32,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   const Text(
                     "NeoTech",
                     style: TextStyle(
-                      fontSize: 26,
+                      fontSize: 30,
                       fontWeight: FontWeight.w600,
                       fontFamily: 'Poppins',
-                      color: Color.fromRGBO(27, 27, 27, 1),
+                      color: Color.fromRGBO(255, 255, 255, 1),
                     ),
                   ),
                   const SizedBox(width: 48), // espaço para centralizar o título
@@ -56,7 +56,7 @@ class AppBarBackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color = const Color(0xFF81B89A).withOpacity(0.45)
+      ..color = const Color(0xFF81B89A).withOpacity(0.8)
       ..style = PaintingStyle.fill;
 
     final Path path = Path()

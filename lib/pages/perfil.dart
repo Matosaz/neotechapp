@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:neotechapp/widgets/bottom_navbar.dart';
 import 'package:get/get.dart';
 
@@ -58,22 +57,12 @@ class ProfileScreen extends StatelessWidget {
 bottomNavigationBar: BottomNavBar(
   selectedIndex: 3,
   onTabChange: (index) {
-    switch (index) {
-      case 0:
-        Get.offNamed('/home');
-        break;
-      case 1:
-        Get.offNamed('/search');
-        break;
-      case 2:
-        Get.offNamed('/messages');
-        break;
-      case 3:
-        // já está na tela de perfil
-        break;
+    if (index != 3) {
+      Get.offNamed('/home', arguments: index);
     }
   },
 ),
+
     );
   }
 }
