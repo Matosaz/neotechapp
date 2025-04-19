@@ -12,49 +12,57 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>with SingleTickerProviderStateMixin {
   late int _selectedIndex;
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
-  }Widget buildTabBar() {
-  return Positioned(
-top: const CustomAppBar().preferredSize.height + MediaQuery.of(context).size.height * -.22,
-    left: 0,
-    right: 0,
-    child: DefaultTabController(
-      length: 3,
-      child: Material(
-        color: Colors.transparent,
-        child: TabBar(
-          labelColor: Colors.black,
-          unselectedLabelColor: Colors.grey,
-          indicatorColor: Color(0xFF81B89A),
-          indicatorSize: TabBarIndicatorSize.label,
-          labelStyle: const TextStyle(fontFamily: 'Poppins', fontSize: 16),
-          onTap: (index) {
-            Future.delayed(const Duration(milliseconds: 100), () {
-              switch (index) {
-                case 0: Get.toNamed('/pagina1'); break;
-                case 1: Get.toNamed('/pagina2'); break;
-                case 2: Get.toNamed('/pagina3'); break;
-              }
+    _tabController = TabController(length: 3, vsync: this);
+
+    // Sempre forçar a aba "Serviço" como selecionada
+    _tabController.index = 0;
+  }
+    @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  Widget buildTabBar() {
+    return Material(
+      color: Colors.transparent,
+      child: TabBar(
+        controller: _tabController,
+        labelColor: Colors.black,
+        unselectedLabelColor: Colors.grey,
+        indicatorColor: const Color(0xFF81B89A),
+        indicatorSize: TabBarIndicatorSize.label,
+        labelStyle: const TextStyle(fontFamily: 'Poppins', fontSize: 16),
+        onTap: (index) {
+          // Apenas navegar sem alterar a aba ativa visualmente
+          if (index == 1) {
+            Future.delayed(const Duration(milliseconds: 230), () {
+              Get.toNamed('/acompanhamento');
+              _tabController.animateTo(0); // Retorna a seleção visual
             });
-          },
-          tabs: const [
-            Tab(text: "Serviço"),
-            Tab(text: "Mapa"),
-            Tab(text: "Status"),
-          ],
-        ),
+          } else if (index == 2) {
+            Future.delayed(const Duration(milliseconds: 210), () {
+              Get.toNamed('/pagina3');
+              _tabController.animateTo(0); // Retorna a seleção visual
+            });
+          }
+        },
+        tabs: const [
+          Tab(text: "Serviço"),
+          Tab(text: "Mapa"),
+          Tab(text: "Status"),
+        ],
       ),
-    ),
-  );
-}
-
-
+    );
+  }
 
   void _onTabChange(int index) {
     if (index == _selectedIndex) return;
@@ -65,7 +73,9 @@ top: const CustomAppBar().preferredSize.height + MediaQuery.of(context).size.hei
         _selectedIndex = index;
       });
     }
-  }@override
+  }
+  
+  @override
 Widget build(BuildContext context) {
   return Scaffold(
     drawer: const CustomDrawer(),
@@ -77,7 +87,7 @@ Widget build(BuildContext context) {
         // Exibe a TabBar apenas se estiver na tela inicial (índice 0)
         if (_selectedIndex == 0)
           Positioned(
-            top: 140, // ajuste conforme a altura da curva
+top: kToolbarHeight + MediaQuery.of(context).padding.top + 50,
             left: 0,
             right: 0,
             child: buildTabBar(),

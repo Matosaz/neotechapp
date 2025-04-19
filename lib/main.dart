@@ -19,10 +19,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
+        fontFamily: 'Poppins', 
+
         textTheme: const TextTheme(
           bodyLarge: TextStyle(fontFamily: 'Poppins', fontSize: 20),
           bodyMedium: TextStyle(fontFamily: 'Poppins', fontSize: 18),
           bodySmall: TextStyle(fontFamily: 'Poppins', fontSize: 16),
+          labelLarge: TextStyle(fontWeight: FontWeight.w500),
+
         ),
       ),
       initialRoute: RouteManager.home, // define a rota inicial

@@ -19,6 +19,8 @@ dependencies:
   get: ^4.6.6  # ou a versão mais recente
   flutter_svg: ^2.0.7
   mask_text_input_formatter: ^2.4.0
+  timeline_tile: ^2.0.0
+  google_maps_flutter: ^2.5.0
 
 
 flutter_native_splash:
@@ -42,10 +44,10 @@ flutter_launcher_icons:
 flutter:
   uses-material-design: true
   assets:
-    - assets/backgrounds/background.png #// Fundo da SplashScreen
-    - assets/images/logo_neotechps.png #// Fundo tela de Boas-Vindas
-    - assets/images/logoneotech.png #// Fundo tela de Boas-Vindas
-
+    - assets/backgrounds/background.png 
+    - assets/images/logo_neotechps.png 
+    - assets/images/logoneotech.png 
+    - assets/images/routetemplate.png
 
   fonts:
     - family: Poppins
