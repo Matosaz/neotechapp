@@ -289,7 +289,7 @@ class TopLeftWavePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint =
         Paint()
-          ..color = const Color.fromARGB(255, 190, 231, 193)
+          ..color = const Color.fromARGB(255, 164, 206, 167)
           ..style = PaintingStyle.fill;
 
     final path = Path();
@@ -322,7 +322,7 @@ class BottomRightWavePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint =
         Paint()
-          ..color = const Color.fromARGB(255, 190, 231, 193)
+          ..color = const Color.fromARGB(255, 164, 206, 167)
           ..style = PaintingStyle.fill;
 
     final path = Path();
@@ -353,7 +353,7 @@ class BottomRightWavePainter extends CustomPainter {
 class PasswordCriteriaWidget extends StatelessWidget {
   final String password;
 
-  PasswordCriteriaWidget({required this.password});
+  const PasswordCriteriaWidget({super.key, required this.password});
 
   Widget _buildCriteria(bool condition, String text) {
     return Row(

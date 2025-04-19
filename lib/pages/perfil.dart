@@ -31,9 +31,12 @@ class ProfileScreen extends StatelessWidget {
             const UserHeader(),
             const SizedBox(height: 30),
             ProfileMenu(
-              text: "Minha conta",
+              text: "Editar perfil",
               icon: Icons.person,
-              press: () {},
+              press: () {
+                  Get.toNamed('/editperfil');
+
+              },
             ),
            
             ProfileMenu(
@@ -122,11 +125,11 @@ class UserHeader extends StatelessWidget {
 
 class ProfileMenu extends StatelessWidget {
   const ProfileMenu({
-    Key? key,
+    super.key,
     required this.text,
     required this.icon,
     this.press,
-  }) : super(key: key);
+  });
 
   final String text;
   final IconData icon;
