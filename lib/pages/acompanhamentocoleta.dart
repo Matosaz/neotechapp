@@ -111,7 +111,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 4),
                     Text(
                       "Fernando Alves",
                       style: TextStyle(
@@ -171,7 +171,8 @@ class _TrackingScreenState extends State<TrackingScreen> {
               children: List.generate(steps.length, (index) {
                 final step = steps[index];
                 final isLast = index == steps.length - 1;
-                return _buildTimelineStep(step, isLast);
+                final nextDone = !isLast ? steps[index + 1].done : false;
+                return _buildTimelineStep(step, isLast, nextDone);
               }),
             ),
             const SizedBox(height: 20),
@@ -232,7 +233,11 @@ class _TrackingScreenState extends State<TrackingScreen> {
     );
   }
 
-  Widget _buildTimelineStep(_StepData step, bool isLast) {
+  Widget _buildTimelineStep(
+    _StepData step,
+    bool isLast, [
+    bool nextDone = false,
+  ]) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -251,7 +256,10 @@ class _TrackingScreenState extends State<TrackingScreen> {
               Container(
                 width: 2,
                 height: 40,
-                color: Color(0xFF81B89A).withOpacity(0.5),
+                color:
+                    nextDone
+                        ? const Color(0xFF81B89A).withOpacity(0.5)
+                        : Colors.grey[400],
               ),
           ],
         ),
@@ -272,11 +280,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                 Text(
                   step.subtitle,
                   style: TextStyle(
-                    
-                    color:
-                        step.done
-                            ? Colors.grey[800]
-                            : Colors.grey,
+                    color: step.done ? Colors.grey[800] : Colors.grey,
                     fontSize: 14,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w500,

@@ -117,7 +117,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 obscureText: _obscurePassword,
                 suffixIcon: IconButton(
                   icon: Icon(
-                    _obscurePassword ? Icons.visibility_off : Icons.visibility, color: const Color(0xFF81B89A),
+                    _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                    color: const Color(0xFF81B89A),
                   ),
                   onPressed: () {
                     setState(() {
@@ -144,29 +145,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       // Ação ao cancelar (voltar à tela anterior)
                       Navigator.pop(context);
                     },
-                    child: Text('Cancelar'),
-                    style: ElevatedButton.styleFrom(
-                      textStyle: TextStyle(
-                        fontSize: 14,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w500,
-                      ),
-                      backgroundColor: const Color.fromARGB(
-                        255,
-                        184,
-                        184,
-                        184,
-                      ), // Cor do botão
-                      foregroundColor: Colors.white, // Cor do texto
+                    style: OutlinedButton.styleFrom(
                       padding: EdgeInsets.symmetric(
                         horizontal: 40,
                         vertical: 12,
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                      backgroundColor: Colors.grey[100],
+                      foregroundColor: Color(0xFF81B89A),
+                      side: const BorderSide(
+                        color: Color(0xFF81B89A),
+                        width: 2,
                       ),
-                      elevation: 2, // Sombra do botão
                     ),
+                    child: Text('Cancelar'),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -177,11 +168,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     },
                     child: Text('Salvar'),
                     style: ElevatedButton.styleFrom(
-                      textStyle: TextStyle(
-                        fontSize: 14,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w500,
-                      ),
                       backgroundColor: const Color(0xFF81B89A),
                       foregroundColor: Colors.white, // Cor do texto
                       padding: EdgeInsets.symmetric(
