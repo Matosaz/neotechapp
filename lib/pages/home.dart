@@ -32,37 +32,40 @@ class _HomePageState extends State<HomePage>with SingleTickerProviderStateMixin 
   }
 
   Widget buildTabBar() {
-    return Material(
-      color: Colors.transparent,
-      child: TabBar(
-        controller: _tabController,
-        labelColor: Colors.black,
-        unselectedLabelColor: Colors.grey,
-        indicatorColor: const Color(0xFF81B89A),
-        indicatorSize: TabBarIndicatorSize.label,
-        labelStyle: const TextStyle(fontFamily: 'Poppins', fontSize: 16),
-        onTap: (index) {
-          // Apenas navegar sem alterar a aba ativa visualmente
-          if (index == 1) {
-            Future.delayed(const Duration(milliseconds: 230), () {
-              Get.toNamed('/acompanhamento');
-              _tabController.animateTo(0); // Retorna a seleção visual
-            });
-          } else if (index == 2) {
-            Future.delayed(const Duration(milliseconds: 210), () {
-              Get.toNamed('/pagina3');
-              _tabController.animateTo(0); // Retorna a seleção visual
-            });
-          }
-        },
-        tabs: const [
-          Tab(text: "Serviço"),
-          Tab(text: "Mapa"),
-          Tab(text: "Status"),
-        ],
-      ),
-    );
-  }
+  return Material(
+    color: Colors.transparent,
+    child: TabBar(
+      controller: _tabController,
+      isScrollable: false, // <- solução mais direta
+      labelColor: Colors.black,
+      unselectedLabelColor: Colors.grey,
+      indicatorColor: const Color(0xFF81B89A),
+      indicatorSize: TabBarIndicatorSize.label,
+labelPadding: const EdgeInsets.symmetric(horizontal: 10.0), // Aumenta o espaçamento lateral de cada item
+
+      labelStyle: const TextStyle(fontFamily: 'Poppins', fontSize: 16),
+      onTap: (index) {
+        if (index == 1) {
+          Future.delayed(const Duration(milliseconds: 230), () {
+            Get.toNamed('/acompanhamento');
+            _tabController.animateTo(0);
+          });
+        } else if (index == 2) {
+          Future.delayed(const Duration(milliseconds: 210), () {
+            Get.toNamed('/pagina3');
+            _tabController.animateTo(0);
+          });
+        }
+      },
+      tabs: const [
+        Tab(text: "Serviço"),
+        Tab(text: "Acompanhar"),
+        Tab(text: "Status"),
+      ],
+    ),
+  );
+}
+
 
   void _onTabChange(int index) {
     if (index == _selectedIndex) return;

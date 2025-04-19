@@ -272,15 +272,17 @@ class _TrackingScreenState extends State<TrackingScreen> {
                 Text(
                   step.subtitle,
                   style: TextStyle(
+                    
                     color:
                         step.done
-                            ? Color.fromARGB(255, 87, 87, 87)
+                            ? Colors.grey[800]
                             : Colors.grey,
                     fontSize: 14,
+                    fontFamily: 'Poppins',
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 15),
               ],
             ),
           ),
