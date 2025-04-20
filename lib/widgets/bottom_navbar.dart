@@ -34,7 +34,7 @@ class BottomNavBar extends StatelessWidget {
             tabs: const [
               GButton(icon: Icons.home, text: 'Início'),
               GButton(icon: Icons.search, text: 'Buscar'),
-              GButton(icon: Icons.message, text: 'Mensagens'),
+              GButton(icon: Icons.recycling_rounded, text: 'Histórico'),
               GButton(icon: Icons.person, text: 'Perfil'),
             ],
             selectedIndex: selectedIndex,

@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:neotechapp/pages/acompanhamentocoleta.dart';
 import '../pages/home.dart';
 import '../pages/login.dart';
 import '../pages/perfil.dart';
 import '../pages/editperfil.dart';
 import '../pages/acompanhamentocoleta.dart';
+import '../pages/historicoreciclado.dart';
 
 
 class RouteManager {
@@ -13,6 +13,7 @@ class RouteManager {
   static String perfil = '/perfil';
   static String editperfil = '/editperfil';
   static String acompanhamento = '/acompanhamento';
+  static String historico = '/historico';
 
 
 
@@ -28,6 +29,7 @@ class RouteManager {
     GetPage(name: perfil, page: () => const ProfileScreen()),
     GetPage(name: editperfil, page: () => EditProfileScreen()),
     GetPage(name: acompanhamento, page: () => const TrackingScreen()),
+    GetPage(name: historico, page: () => const RecyclingProgressScreen()),
 
   ];
 }

@@ -63,6 +63,9 @@ bottomNavigationBar: BottomNavBar(
     if (index != 3) {
       Get.offNamed('/home', arguments: index);
     }
+    if(index == 2){
+            Get.toNamed('/historico');
+          }
   },
 ),
 

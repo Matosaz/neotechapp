@@ -40,7 +40,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),

@@ -15,16 +15,24 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>with SingleTickerProviderStateMixin {
   late int _selectedIndex;
   late TabController _tabController;
+@override
+void initState() {
+  super.initState();
 
-  @override
-  void initState() {
-    super.initState();
+  // Captura o argumento passado com segurança
+  final args = Get.arguments;
+  if (args is int) {
+    _selectedIndex = args;
+  } else {
     _selectedIndex = widget.initialIndex;
-    _tabController = TabController(length: 3, vsync: this);
-
-    // Sempre forçar a aba "Serviço" como selecionada
-    _tabController.index = 0;
   }
+
+  _tabController = TabController(length: 3, vsync: this);
+
+  // Sempre forçar a aba "Serviço" como selecionada
+  _tabController.index = 0;
+}
+
     @override
   void dispose() {
     _tabController.dispose();
@@ -71,7 +79,11 @@ labelPadding: const EdgeInsets.symmetric(horizontal: 10.0), // Aumenta o espaça
     if (index == _selectedIndex) return;
     if (index == 3) {
       Get.toNamed('/perfil');
-    } else {
+    } 
+     else if (index == 2) {
+      Get.toNamed('/historico');
+    }
+    else {
       setState(() {
         _selectedIndex = index;
       });
@@ -104,7 +116,6 @@ top: kToolbarHeight + MediaQuery.of(context).padding.top + 50,
             children: [
               Container(), // Home
               const Center(child: Text("Buscar")),
-              const Center(child: Text("Mensagens")),
             ],
           ),
         ),
