@@ -22,6 +22,7 @@ dependencies:
   timeline_tile: ^2.0.0
   google_maps_flutter: ^2.5.0
   percent_indicator: ^4.2.2
+  intl: ^0.18.1
 
 
 flutter_native_splash:

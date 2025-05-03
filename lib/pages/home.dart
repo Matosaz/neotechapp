@@ -60,7 +60,7 @@ labelPadding: const EdgeInsets.symmetric(horizontal: 10.0), // Aumenta o espaça
           });
         } else if (index == 2) {
           Future.delayed(const Duration(milliseconds: 210), () {
-            Get.toNamed('/pagina3');
+            Get.toNamed('/historicoServico');
             _tabController.animateTo(0);
           });
         }
@@ -83,6 +83,8 @@ labelPadding: const EdgeInsets.symmetric(horizontal: 10.0), // Aumenta o espaça
      else if (index == 2) {
       Get.toNamed('/historico');
     }
+
+    
     else {
       setState(() {
         _selectedIndex = index;

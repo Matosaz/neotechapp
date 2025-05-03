@@ -218,7 +218,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
             const SizedBox(width: 12),
             Expanded(
               child: ElevatedButton(
-                onPressed: () {},
+                      onPressed: () => _showConfirmationDialog(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF81B89A),
                   foregroundColor: Colors.white,
@@ -346,4 +346,66 @@ class _StepData {
   final bool done;
 
   _StepData(this.title, this.subtitle, this.icon, this.done);
+}
+
+void _showConfirmationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder:
+        (_) => AlertDialog(
+          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+
+          ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+
+          title: Column(
+            children: [
+              Icon(
+                Icons.check_circle,
+                color: const Color.fromARGB(255, 170, 212, 172),
+                size: 48,
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Entrega Confirmada!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                ),
+                
+              ),
+            ],
+          ),
+          
+          content: const Text(
+            'Obrigado por contribuir com a sustentabilidade. Seus pontos foram adicionados!',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w600, color:  Color(0xFF757575)),
+          ),
+          actionsAlignment: MainAxisAlignment.center,
+          
+          actions: [
+            
+                          const SizedBox(height: 12),
+
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text(
+                textAlign: TextAlign.center,
+                'Fechar',
+                style: TextStyle(
+                  color: Color(0xFF81B89A),
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                ),
+              ),
+            ),
+          ],
+        ),
+  );
 }

@@ -5,7 +5,7 @@ import '../pages/perfil.dart';
 import '../pages/editperfil.dart';
 import '../pages/acompanhamentocoleta.dart';
 import '../pages/historicoreciclado.dart';
-
+import '../pages/historicoservico.dart';
 
 class RouteManager {
   static String home = '/home';
@@ -14,8 +14,7 @@ class RouteManager {
   static String editperfil = '/editperfil';
   static String acompanhamento = '/acompanhamento';
   static String historico = '/historico';
-
-
+  static String historicoServico = '/historicoServico';
 
   static List<GetPage> routes = [
     GetPage(
@@ -30,6 +29,7 @@ class RouteManager {
     GetPage(name: editperfil, page: () => EditProfileScreen()),
     GetPage(name: acompanhamento, page: () => const TrackingScreen()),
     GetPage(name: historico, page: () => const RecyclingProgressScreen()),
+    GetPage(name: historicoServico, page: () => const ElegantCollectionHistory()),
 
   ];
 }
