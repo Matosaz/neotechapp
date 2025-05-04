@@ -86,6 +86,7 @@ class _LoginState extends State<LoginPage> {
                       isLogin ? "Que bom que você retornou!" : "Crie sua conta",
                       style: const TextStyle(
                         fontSize: 24,
+                        color: Color.fromARGB(188, 27, 27, 27),
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -116,7 +117,6 @@ class _LoginState extends State<LoginPage> {
                           : passwordControllerCadastro,
                     ),
 
-                    // ✅ Adicionado widget de validação abaixo do campo de senha
                     if (!isLogin)
                       PasswordCriteriaWidget(
                         password: passwordControllerCadastro.text,
@@ -147,7 +147,7 @@ class _LoginState extends State<LoginPage> {
                               "A senha deve ter no mínimo 6 caracteres.",
                             );
                           } else {
-                            print("Login realizado");
+                            Get.offNamed("/home");
                           }
                         } else {
                           if (nameControllerCadastro.text.isEmpty) {
@@ -174,7 +174,7 @@ class _LoginState extends State<LoginPage> {
                       child: Text(
                         isLogin ? "Entrar" : "Cadastrar",
                         style: const TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
                         ),
@@ -182,14 +182,17 @@ class _LoginState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 10),
                     TextButton(
+                      
                       onPressed: toggleForm,
                       child: Text.rich(
                         TextSpan(
                           style: const TextStyle(
-                            color: Color.fromARGB(255, 96, 108, 128),
-                            fontWeight: FontWeight.bold,
+                            
+                            color: Color.fromARGB(255, 131, 131, 131),
+                            fontWeight: FontWeight.w600,
                           ),
                           children: [
+                            
                             TextSpan(
                               text:
                                   isLogin
@@ -199,8 +202,8 @@ class _LoginState extends State<LoginPage> {
                             TextSpan(
                               text: isLogin ? "Cadastre-se" : "Faça login",
                               style: const TextStyle(
-                                color: Color.fromARGB(255, 52, 142, 216),
-                                fontWeight: FontWeight.w900,
+                                color: Color.fromARGB(255, 68, 132, 151),
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
                           ],
@@ -246,6 +249,7 @@ class _LoginState extends State<LoginPage> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: TextField(
+        style: TextStyle(fontSize: 16),
         controller: controller,
         obscureText: obscure,
         onChanged: (_) {
@@ -254,7 +258,8 @@ class _LoginState extends State<LoginPage> {
         decoration: InputDecoration(
           prefixIcon: Icon(
             icon,
-            color: const Color.fromARGB(255, 161, 161, 161),
+            color: const Color.fromARGB(204, 112, 112, 112),
+            size: 22,
           ),
           hintText: hint,
           hintStyle: hintStyle ?? TextStyle(color: Colors.grey),

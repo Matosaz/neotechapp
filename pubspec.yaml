@@ -50,6 +50,8 @@ flutter:
     - assets/images/logo_neotechps.png 
     - assets/images/logoneotech.png 
     - assets/images/routetemplate.png
+    - assets/images/NoServices.svg
+
 
   fonts:
     - family: Poppins

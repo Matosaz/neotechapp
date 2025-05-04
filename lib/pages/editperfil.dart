@@ -209,7 +209,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             child: Text(
               label,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Poppins',
                 color: Color.fromARGB(255, 87, 87, 87),

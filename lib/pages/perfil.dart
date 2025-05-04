@@ -52,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
             ProfileMenu(
               text: "Sair",
               icon: Icons.logout,
-              press: () {},
+              press: () => Get.offAllNamed("/login"),
             ),
           ],
         ),

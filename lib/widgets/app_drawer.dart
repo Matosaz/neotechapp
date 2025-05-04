@@ -15,7 +15,7 @@ class CustomDrawer extends StatelessWidget {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: const Color(0xFF81B89A).withOpacity(0.3),
+                color: const Color.fromARGB(255, 250, 250, 250),
               ),
               child: Row(
                 children: [
@@ -31,77 +31,42 @@ class CustomDrawer extends StatelessWidget {
                       Text(
                         "João",
                         style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          color: Color.fromARGB(255, 87, 87, 87),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins',
+                          color: Colors.black87,
                         ),
                       ),
-                      SizedBox(height: 2),
-                      Row(
-                        children: [
-                          Text(
-                            "usuario@gmail.com",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF757575),
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                          SizedBox(width: 4),
-                          Icon(Icons.email, size: 16, color: Color(0xFF757575)),
-                        ],
+                      SizedBox(height: 4),
+                      Text(
+                        "usuario@gmail.com",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey,
+                          fontFamily: 'Poppins',
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 10),
+            _buildDrawerItem(icon: Icons.person, text: "Perfil", onTap: () {Get.toNamed("/perfil");}),
+            _buildDrawerItem(icon: Icons.live_tv, text: "Futuro", onTap: () {}),
+            _buildDrawerItem(icon: Icons.play_circle_outline, text: "Futuro", onTap: () {}),
+            _buildDrawerItem(icon: Icons.subscriptions, text: "Futuro", onTap: () {}),
+            _buildDrawerItem(icon: Icons.credit_card, text: "Futuro", onTap: () {}),
+         
+            const SizedBox(height: 20),
+            const Divider(indent: 10, endIndent: 10),
             _buildDrawerItem(
-              icon: Icons.home,
-              text: "Início",
-              onTap: () {},
-            ),
-            Divider(
-  color: Colors.grey[300], // Cor sutil
-  thickness: 0.5,            // Espessura da linha
-  height: 10,              // Espaço vertical
-  indent: 30,              // Espaço à esquerda
-  endIndent: 30,           // Espaço à direita
-),
-
-            _buildDrawerItem(
-              icon: Icons.settings,
-              text: "Configurações",
-              onTap: () {},
-            ),
-      Divider(
-  color: Colors.grey[300], // Cor sutil
-  thickness: 0.5,            // Espessura da linha
-  height: 10,              // Espaço vertical
-  indent: 30,              // Espaço à esquerda
-  endIndent: 30,           // Espaço à direita
-),
-
-      
-            _buildDrawerItem(
-              icon: Icons.exit_to_app,
-              text: "Sair",
+              icon: Icons.logout,
+              text: "Sair da conta",
               iconColor: Colors.red,
               textColor: Colors.red,
               onTap: () => Get.offAllNamed(RouteManager.login),
             ),
-      Divider(
-  color: Colors.grey[300], // Cor sutil
-  thickness: 0.5,            // Espessura da linha
-  height: 10,              // Espaço vertical
-  indent: 30,              // Espaço à esquerda
-  endIndent: 30,           // Espaço à direita
-),
-
-      
           ],
         ),
       ),
@@ -112,25 +77,21 @@ class CustomDrawer extends StatelessWidget {
     required IconData icon,
     required String text,
     VoidCallback? onTap,
-    Color iconColor = const Color.fromARGB(255, 87, 87, 87),
-    Color textColor = const Color(0xFF757575),
+    Color iconColor =  const Color(0xFF81B89A),
+    Color textColor = Colors.black87,
   }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(vertical: 6),
-        leading: Icon(icon, color: iconColor),
-        title: Text(
-          text,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: textColor,
-          ),
+    return ListTile(
+      leading: Icon(icon, color: iconColor, size: 22),
+      title: Text(
+        text,
+        style: TextStyle(
+          fontFamily: 'Poppins',
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+                  color: Color(0xFF757575),
         ),
-        onTap: onTap,
       ),
+      onTap: onTap,
     );
   }
 }
