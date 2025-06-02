@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:neotechapp/routes/RouteManager.dart';
 import 'package:get/get.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:neotechapp/userProvider/UserModel.dart';
+import 'package:neotechapp/userProvider/UserProvider.dart';
+import 'package:provider/provider.dart'; // Importar provider
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,7 +18,8 @@ class LoginPage extends StatefulWidget {
 class _LoginState extends State<LoginPage> {
   bool isLogin = true;
   bool obscureText = true;
-
+  final String apiBaseUrl =
+      "https://intellij-neotech.onrender.com/api/v1/users";
   final TextEditingController emailControllerLogin = TextEditingController();
   final TextEditingController passwordControllerLogin = TextEditingController();
   final TextEditingController nameControllerCadastro = TextEditingController();
@@ -31,9 +38,98 @@ class _LoginState extends State<LoginPage> {
   }
 
   bool isValidEmail(String email) {
-    String pattern = r'^[a-zA-Z0-9._%+-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,}$';
+    String pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
     RegExp regex = RegExp(pattern);
     return regex.hasMatch(email);
+  }
+
+  bool isLoading = false;
+
+  Future<void> login() async {
+    setState(() => isLoading = true);
+    final email = emailControllerLogin.text.trim();
+    final senha = passwordControllerLogin.text;
+
+    try {
+      // 1. Primeiro fazemos o login básico
+      final loginResponse = await http.post(
+        Uri.parse("$apiBaseUrl/login"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': email, 'senha': senha}),
+      );
+
+      debugPrint('Resposta do login: ${loginResponse.body}');
+
+      if (loginResponse.statusCode == 200) {
+        final loginData = jsonDecode(loginResponse.body);
+        final userId = loginData['id'];
+
+        // 2. Agora buscamos os dados completos do usuário
+        final userResponse = await http.get(
+          Uri.parse("$apiBaseUrl/$userId"),
+          headers: {'Content-Type': 'application/json'},
+        );
+
+        debugPrint('Resposta dos dados do usuário: ${userResponse.body}');
+
+        if (userResponse.statusCode == 200) {
+          final userData = jsonDecode(userResponse.body);
+          final user = User.fromJson(userData);
+          final userProvider = Provider.of<UserProvider>(
+            context,
+            listen: false,
+          );
+          await userProvider.setUser(user);
+
+          navigateToHome();
+        } else {
+          final errorMsg =
+              jsonDecode(userResponse.body)['mensagem'] ??
+              'Erro ao obter dados do usuário';
+          showErrorDialog(errorMsg);
+        }
+      } else {
+        final errorMsg =
+            jsonDecode(loginResponse.body)['mensagem'] ?? 'Erro ao fazer login';
+        showErrorDialog(errorMsg);
+      }
+    } catch (e) {
+      showErrorDialog('Erro: ${e.toString()}');
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
+
+  Future<void> cadastrar() async {
+    setState(() => isLoading = true);
+
+    final nome = nameControllerCadastro.text.trim();
+    final email = emailControllerCadastro.text.trim();
+    final senha = passwordControllerCadastro.text;
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiBaseUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'nome': nome, 'email': email, 'senha': senha}),
+      );
+
+      if (response.statusCode == 201) {
+        final data = jsonDecode(response.body);
+        final user = User.fromJson(data); // Supondo que a API retorna o usuário
+        final userProvider = Provider.of<UserProvider>(context, listen: false);
+        await userProvider.setUser(user); // Salva o usuário
+        navigateToHome();
+      } else {
+        final erro =
+            jsonDecode(response.body)['mensagem'] ?? 'Erro ao cadastrar.';
+        showErrorDialog(erro);
+      }
+    } catch (e) {
+      showErrorDialog('Erro de conexão. Verifique sua internet.');
+    } finally {
+      setState(() => isLoading = false);
+    }
   }
 
   bool isPasswordValid(String password) {
@@ -147,7 +243,7 @@ class _LoginState extends State<LoginPage> {
                               "A senha deve ter no mínimo 6 caracteres.",
                             );
                           } else {
-                            Get.offNamed("/home");
+                            login();
                           }
                         } else {
                           if (nameControllerCadastro.text.isEmpty) {
@@ -166,8 +262,7 @@ class _LoginState extends State<LoginPage> {
                               "A senha não atende a todos os critérios.",
                             );
                           } else {
-                            print("Cadastro realizado");
-                            navigateToHome();
+                            cadastrar();
                           }
                         }
                       },
@@ -182,17 +277,14 @@ class _LoginState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 10),
                     TextButton(
-                      
                       onPressed: toggleForm,
                       child: Text.rich(
                         TextSpan(
                           style: const TextStyle(
-                            
                             color: Color.fromARGB(255, 131, 131, 131),
                             fontWeight: FontWeight.w600,
                           ),
                           children: [
-                            
                             TextSpan(
                               text:
                                   isLogin

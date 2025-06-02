@@ -2,12 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'routes/RouteManager.dart';
-
+import 'package:provider/provider.dart';  // Importar provider
+import 'userProvider/UserProvider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Future.delayed(const Duration(seconds: 2));
   FlutterNativeSplash.remove();
-  runApp(const MyApp());
+
+  final userProvider = UserProvider();
+  await userProvider.init(); // aguarda carregar dados
+
+   runApp(
+    ChangeNotifierProvider(
+      create: (context) => userProvider,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

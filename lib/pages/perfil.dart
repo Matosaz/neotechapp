@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:neotechapp/widgets/bottom_navbar.dart';
 import 'package:get/get.dart';
-
-
-
+import 'package:provider/provider.dart'; // Importar provider
+import '../userProvider/UserProvider.dart';
+import 'package:neotechapp/widgets/user_avatar.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -16,11 +16,12 @@ class ProfileScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title: Container(
-          margin: const EdgeInsets.only(left: 5, top:20),
-          child: const Text("Meu perfil",
-          style: TextStyle(fontSize: 34, fontWeight: FontWeight.w600)),
+          margin: const EdgeInsets.only(left: 5, top: 20),
+          child: const Text(
+            "Meu perfil",
+            style: TextStyle(fontSize: 34, fontWeight: FontWeight.w600),
+          ),
         ),
-
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -34,21 +35,16 @@ class ProfileScreen extends StatelessWidget {
               text: "Editar perfil",
               icon: Icons.person,
               press: () {
-                  Get.toNamed('/editperfil');
-
+                Get.toNamed('/editperfil');
               },
             ),
-           
+
             ProfileMenu(
               text: "Configurações",
               icon: Icons.settings,
               press: () {},
             ),
-            ProfileMenu(
-              text: "Ajuda",
-              icon: Icons.help_outline,
-              press: () {},
-            ),
+            ProfileMenu(text: "Ajuda", icon: Icons.help_outline, press: () {}),
             ProfileMenu(
               text: "Sair",
               icon: Icons.logout,
@@ -57,18 +53,17 @@ class ProfileScreen extends StatelessWidget {
           ],
         ),
       ),
-bottomNavigationBar: BottomNavBar(
-  selectedIndex: 3,
-  onTabChange: (index) {
-    if (index != 3) {
-      Get.offNamed('/home', arguments: index);
-    }
-    if(index == 2){
+      bottomNavigationBar: BottomNavBar(
+        selectedIndex: 3,
+        onTabChange: (index) {
+          if (index != 3) {
+            Get.offNamed('/home', arguments: index);
+          }
+          if (index == 2) {
             Get.toNamed('/historico');
           }
-  },
-),
-
+        },
+      ),
     );
   }
 }
@@ -78,50 +73,60 @@ class UserHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 30,
-            backgroundImage:
-                NetworkImage("https://i.postimg.cc/0jqKB6mS/Profile-Image.png"),
-          ),
-          const SizedBox(width: 15),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-            const SizedBox(width: 15),
-          const Text(
-            "Olá, João!",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Color.fromARGB(255, 87, 87, 87),
-            ),
-          ),
+    return Consumer<UserProvider>(
+      builder: (context, userProvider, child) {
+        final user = userProvider.user;
+        final nome = user?.nome ?? 'Usuário';
+        final email =
+            user?.email ?? 'usuario@gmail.com'; // Adicionado email dinâmico
 
-           const SizedBox(height:4),
-           Row(
-              children: const[
-            
-              Text("usuario@gmail.com",
-              style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF757575),) 
-            ),
-                Padding(padding: EdgeInsets.only(left: 5),
-                 child: Icon(Icons.email, size: 16, color: Color(0xFF757575)),
-                ),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            children: [
+              UserAvatar(base64Image: user?.avatar, radius: 35),
+              const SizedBox(width: 15),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(width: 15),
+                  Text(
+                    // Removido o const aqui
+                    "Olá, $nome!",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Color.fromARGB(255, 87, 87, 87),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Text(
+                        // Texto do email também dinâmico
+                        email,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF757575),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 5),
+                        child: Icon(
+                          Icons.email,
+                          size: 16,
+                          color: Color(0xFF757575),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ],
-        
           ),
-            ],
-          )
-        
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -140,33 +145,26 @@ class ProfileMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: TextButton(
-        
         style: TextButton.styleFrom(
           foregroundColor: const Color(0xFF81B89A),
           padding: const EdgeInsets.all(20),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
           backgroundColor: const Color(0xFFF5F6F9),
         ),
         onPressed: press,
         child: Row(
           children: [
-            Icon(
-              icon,
-              color: const Color(0xFF81B89A),
-              size: 26,
-            ),
+            Icon(icon, color: const Color(0xFF81B89A), size: 26),
             const SizedBox(width: 20),
             Expanded(
               child: Text(
                 text,
-                style: const TextStyle(
-                  color: Color(0xFF757575),
-                  fontSize: 14
-                ),
+                style: const TextStyle(color: Color(0xFF757575), fontSize: 14),
               ),
             ),
             const Icon(
@@ -180,8 +178,6 @@ class ProfileMenu extends StatelessWidget {
     );
   }
 }
-
-
 
 const cameraIcon =
     '''<svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
